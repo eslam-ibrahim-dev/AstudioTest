@@ -1,0 +1,212 @@
+{
+  "info": {
+    "_postman_id": "b7a25b7f-5e6a-4f8c-bb0a-5a7c3ee5d8c9",
+    "name": "Job Board API",
+    "description": "Collection for testing the Job Board API with advanced filtering",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Jobs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"]
+        },
+        "description": "Get all published jobs without any filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Job Type",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=job_type=full-time",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "job_type=full-time"
+            }
+          ]
+        },
+        "description": "Get jobs filtered by job type"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Salary Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=salary_min>=80000 AND salary_max<=120000",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "salary_min>=80000 AND salary_max<=120000"
+            }
+          ]
+        },
+        "description": "Get jobs within a specific salary range"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Languages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=languages HAS_ANY (PHP,JavaScript)",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "languages HAS_ANY (PHP,JavaScript)"
+            }
+          ]
+        },
+        "description": "Get jobs requiring specific programming languages"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Location",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=locations IS_ANY (Remote,New York)",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "locations IS_ANY (Remote,New York)"
+            }
+          ]
+        },
+        "description": "Get jobs in specific locations"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by EAV Attribute (Years Experience)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=attribute:years_experience>=3",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "attribute:years_experience>=3"
+            }
+          ]
+        },
+        "description": "Filter jobs by required years of experience"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by EAV Attribute (Has Equity)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=attribute:has_equity=true",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "attribute:has_equity=true"
+            }
+          ]
+        },
+        "description": "Filter jobs that offer equity"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by EAV Attribute (Seniority)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=attribute:seniority=Senior",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "attribute:seniority=Senior"
+            }
+          ]
+        },
+        "description": "Filter jobs by seniority level"
+      },
+      "response": []
+    },
+    {
+      "name": "Complex Filter with AND/OR Logic",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=(job_type=full-time AND is_remote=true) OR (salary_min>=100000 AND languages HAS_ANY (Python))",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "(job_type=full-time AND is_remote=true) OR (salary_min>=100000 AND languages HAS_ANY (Python))"
+            }
+          ]
+        },
+        "description": "Filter with complex AND/OR logic"
+      },
+      "response": []
+    },
+    {
+      "name": "Complex Filter with Multiple Attributes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/jobs?filter=(locations IS_ANY (Remote)) AND attribute:years_experience>=5 AND attribute:seniority=Senior",
+          "host": ["{{base_url}}"],
+          "path": ["api", "jobs"],
+          "query": [
+            {
+              "key": "filter",
+              "value": "(locations IS_ANY (Remote)) AND attribute:years_experience>=5 AND attribute:seniority=Senior"
+            }
+          ]
+        },
+        "description": "Filter with multiple attributes and conditions"
+      },
+      "response": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}
