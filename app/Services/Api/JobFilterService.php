@@ -36,7 +36,7 @@ class JobFilterService
     {
         $parsed = [];
 
-        if (Str::startsWith($filterString, '(') || Str::endsWith($filterString, ')')) {
+        if (Str::startsWith($filterString, '(') && Str::endsWith($filterString, ')')) {
             $filterString = substr($filterString, 1, -1);
         }
         $logicalParts = preg_split('/(AND|OR)(?![^(]*\))/', $filterString, -1, PREG_SPLIT_DELIM_CAPTURE);
