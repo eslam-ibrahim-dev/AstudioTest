@@ -1,70 +1,162 @@
-<<<<<<< HEAD
-# AstudioTest
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Job Board with Advanced Filtering
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel application that manages job listings with complex filtering capabilities similar to Airtable. The application handles different job types with varying attributes using Entity-Attribute-Value (EAV) design patterns alongside traditional relational database models.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Core Job model with standard fields
+- Many-to-many relationships for Languages, Locations, and Categories
+- Entity-Attribute-Value (EAV) system for dynamic attributes
+- Advanced filtering API with complex query capabilities
+- RESTful API endpoints
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone the repository
+```bash
+git clone <repository-url>
+```
 
-## Learning Laravel
+2. Install dependencies
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Configure environment variables
+```bash
+cp .env.example .env
+# Edit the .env file with your database credentials
+```
+5. Run migrations and seed the database
+```bash
+php artisan migrate --seed
+```
+6. Start the development server
+```bash
+php artisan serve
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## API Documentation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Get Jobs with Filtering
 
-## Laravel Sponsors
+**Endpoint:** `GET /api/jobs`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Query Parameters:**
+- `filter`: Filter expression for querying jobs
+- `per_page`: Number of results per page (default: 15)
 
-### Premium Partners
+### Filter Syntax
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+The filtering system supports a powerful query syntax that allows for complex conditions and logical operations.
 
-## Contributing
+#### Basic Operators
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `=`: Equal
+- `!=`: Not equal
+- `>`: Greater than
+- `<`: Less than
+- `>=`: Greater than or equal
+- `<=`: Less than or equal
+- `LIKE`: Contains (for text fields)
+- `IN`: Value in list
+- `HAS_ANY`: Has any of the values in list
+- `IS_ANY`: Relationship matches any of the values
+- `EXISTS`: Relationship exists
 
-## Code of Conduct
+#### Field Types
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Standard Fields**
+   - `title`, `description`, `company_name`: Text fields
+   - `salary_min`, `salary_max`: Numeric fields
+   - `is_remote`: Boolean field
+   - `job_type`, `status`: Enum fields
+   - `published_at`, `created_at`, `updated_at`: Date fields
 
-## Security Vulnerabilities
+2. **Relationship Fields**
+   - `languages`: Programming languages required for the job
+   - `locations`: Possible locations for the job
+   - `categories`: Job categories/departments
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Dynamic Attributes**
+   - Access with `attribute:name` syntax
+   - Supports text, number, boolean, date, and select types
 
-## License
+#### Logical Operations
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> 9452e986013c661a4a5e378ae052dff8c9d6d7af
+- `AND`: Logical AND
+- `OR`: Logical OR
+- Parentheses `()` for grouping conditions
+
+### Example Queries
+
+1. Find full-time jobs that require PHP or JavaScript:
+```
+/api/jobs?filter=(job_type=full-time AND (languages HAS_ANY (PHP,JavaScript)))
+```
+
+2. Find jobs in New York or Remote locations with at least 3 years of experience:
+```
+/api/jobs?filter=(locations IS_ANY (New York,Remote)) AND attribute:years_experience>=3
+```
+
+3. Find jobs that offer equity and have senior seniority:
+```
+/api/jobs?filter=attribute:has_equity=true AND attribute:seniority=Senior
+```
+
+4. Find remote jobs with salary above 100K:
+```
+/api/jobs?filter=is_remote=true AND salary_min>=100000
+```
+
+5. Find jobs published in the last week with application deadline in the future:
+```
+/api/jobs?filter=published_at>=2025-03-28 AND attribute:application_deadline>2025-04-04
+```
+
+## Database Schema
+
+### Core Tables
+- `jobs`: Main job listings
+- `languages`: Programming languages
+- `locations`: Job locations
+- `categories`: Job categories
+- `job_language`: Pivot table for jobs and languages
+- `job_location`: Pivot table for jobs and locations
+- `job_category`: Pivot table for categories and jobs
+
+### EAV Tables
+- `attributes`: Attribute definitions
+- `job_attribute_values`: Attribute values for jobs
+
+## Design Decisions and Tradeoffs
+
+1. **Entity-Attribute-Value (EAV) Pattern**
+   - **Pro**: Allows for flexible attributes per job type
+   - **Con**: More complex queries compared to fixed columns
+   - **Mitigation**: Indexing on attribute_id and value columns
+
+2. **Filter String Parsing**
+   - **Pro**: Clean, expressive query syntax
+   - **Con**: Parser complexity increases with more operators
+   - **Mitigation**: Structured parser with clear validation
+
+3. **Relationship Filtering**
+   - **Pro**: Powerful filtering across related entities
+   - **Con**: Can lead to performance issues with large datasets
+   - **Mitigation**: Eager loading relationships and indexing foreign keys
+
+4. **Query Efficiency**
+   - Used indexes on commonly filtered columns
+   - Eager loading of relationships to avoid N+1 query problems
+   - Optimized subqueries for relationship filtering
+
+## Possible Improvements
+
+1. Add caching for frequent filter combinations
+2. Implement full-text search for text fields
+3. Add more sophisticated pagination with cursor-based pagination
+4. Support for sorting/ordering results
+5. Implement GraphQL API for more flexible querying
+6. Add rate limiting and authentication to API endpoints
