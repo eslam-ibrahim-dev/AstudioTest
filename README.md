@@ -35,7 +35,7 @@ php artisan migrate --seed
 ```bash
 php artisan serve
 ```
-
+[Postman Collection](https://planetary-resonance-489164.postman.co/workspace/My-Workspace~81a166c3-8068-4465-8a04-03fcd1da3cd5/collection/18541507-e4ba8fc9-85cb-4094-af32-ee6cd5b636a3?action=share&creator=18541507)
 ## API Documentation
 
 ### Get Jobs with Filtering
